@@ -12,7 +12,7 @@ This is an Airbnb clone built with Next.js, TypeScript, Tailwind CSS, MongoDB, P
 
 ## Demo
 
-You can check out a live demo of the Airbnb clone project [here]().
+You can check out a live demo of the Airbnb clone project [here](https://wander-app-ten.vercel.app/).
 
 ## Screenshots
 
