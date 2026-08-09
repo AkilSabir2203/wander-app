@@ -19,6 +19,7 @@ interface CountrySelectProps {
 const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange }) => {
    const { getAll } = useCities();
    const options = getAll();
+   const portalTarget = typeof document !== "undefined" ? document.body : undefined;
 
    return (
       <div>
@@ -27,6 +28,9 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange }) => {
             isClearable
             options={options}
             value={value ?? null}
+            menuPlacement="auto"
+            menuPortalTarget={portalTarget}
+            menuPosition="fixed"
             onChange={(selectedValue) => onChange(selectedValue as CountrySelectValue | null)}
             getOptionLabel={(option) => `${option.label}${option.state ? `, ${option.state}` : ""}`}
             getOptionValue={(option) => option.value}
@@ -34,6 +38,10 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange }) => {
                control: () => "p-3 border-2",
                input: () => "text-lg",
                option: () => "text-lg",
+            }}
+            styles={{
+               menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+               menu: (base) => ({ ...base, zIndex: 9999 }),
             }}
             theme={(theme) => ({
                ...theme,
