@@ -1,6 +1,6 @@
 "use client";
 
-import useCountries from "@/app/hooks/useCountries";
+import useCities from "@/app/hooks/useCities";
 import useSearchModal from "@/app/hooks/useSearchModal";
 import { BiSearch } from "react-icons/bi";
 import { differenceInDays } from "date-fns";
@@ -10,7 +10,7 @@ import { useMemo } from "react";
 const Search = () => {
    const searchModal = useSearchModal();
    const params = useSearchParams();
-   const { getByValue } = useCountries();
+   const { getByValue } = useCities();
 
    const locationValue = params?.get("locationValue");
    const startDate = params?.get("startDate");

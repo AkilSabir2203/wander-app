@@ -1,5 +1,5 @@
 "use client";
-import useCountries from "@/app/hooks/useCountries";
+import useCities from "@/app/hooks/useCities";
 import { SafeUser } from "@/app/types";
 import Heading from "../Heading";
 import Image from "next/image";
@@ -20,12 +20,12 @@ const ListingHead: React.FC<ListingHeadProps> = ({
    id,
    currentUser,
 }) => {
-   const { getByValue } = useCountries();
+   const { getByValue } = useCities();
    const location = getByValue(locationValue);
 
    return (
       <>
-         <Heading title={title} subtitle={`${location?.region}, ${location?.label}`} />
+         <Heading title={title} subtitle={`${location?.state}, ${location?.label}`} />
          <div className="w-full h-[60vh] overflow-hidden rounded-xl relative">
             <Image alt={title} src={imageSrc} fill className="object-cover w-full" />
             <div className="absolute top-5 right-5">

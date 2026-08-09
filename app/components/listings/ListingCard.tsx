@@ -1,5 +1,5 @@
 "use client";
-import useCountries from "@/app/hooks/useCountries";
+import useCities from "@/app/hooks/useCities";
 import { SafeListing, SafeReservation, SafeUser } from "@/app/types";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
@@ -28,7 +28,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
    currentUser,
 }) => {
    const router = useRouter();
-   const { getByValue } = useCountries();
+   const { getByValue } = useCities();
    const location = getByValue(data.locationValue);
    const handleCancel = useCallback(
       (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -77,7 +77,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
                </div>
             </div>
             <div className="font-semibold text-lg">
-               {location?.region}, {location?.label}
+               {location?.state}, {location?.label}
             </div>
             <div className="font-light text-neutral-500">{reservationDate || data.category}</div>
             <div className="flex flex-row items-center gap-1">

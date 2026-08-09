@@ -10,6 +10,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  FAILED
+  CANCELLED
+}
+
+
 model User {
   id              String @id @default(auto()) @map("_id") @db.ObjectId
   name            String?
@@ -70,7 +78,15 @@ model Reservation {
   startDate DateTime
   endDate DateTime
   totalPrice Int
+
+  status String @default("PENDING")
+
+  razorpayOrderId String? @unique
+  razorpayPaymentId String? @unique
+  razorpaySignature String?
+
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
