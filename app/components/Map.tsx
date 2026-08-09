@@ -7,13 +7,15 @@ import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
-// @ts-ignore
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-   iconUrl: markerIcon.src,
-   iconRetinaUrl: markerIcon2x.src,
-   shadowUrl: markerShadow.src,
-});
+if (typeof window !== "undefined") {
+   // @ts-ignore
+   delete L.Icon.Default.prototype._getIconUrl;
+   L.Icon.Default.mergeOptions({
+      iconUrl: markerIcon.src,
+      iconRetinaUrl: markerIcon2x.src,
+      shadowUrl: markerShadow.src,
+   });
+}
 
 interface MapProps {
    center?: number[];
@@ -30,15 +32,17 @@ const Map: React.FC<MapProps> = ({ center }) => {
    const mapCenter = hasValidCenter ? ([center[0], center[1]] as L.LatLngExpression) : fallbackCenter;
 
    return (
-      <MapContainer
-         center={mapCenter}
-         zoom={hasValidCenter ? 8 : 5}
-         scrollWheelZoom={false}
-         className="h-[35vh] rounded-lg"
-      >
+      <div className="h-[35vh] w-full rounded-lg overflow-hidden">
+         <MapContainer
+            center={mapCenter}
+            zoom={hasValidCenter ? 8 : 5}
+            scrollWheelZoom={false}
+            className="h-full w-full"
+         >
          <TileLayer url={url} attribution={attribution} />
-         {hasValidCenter && <Marker position={mapCenter} />}
-      </MapContainer>
+            {hasValidCenter && <Marker position={mapCenter} />}
+         </MapContainer>
+      </div>
    );
 };
 export default Map;
