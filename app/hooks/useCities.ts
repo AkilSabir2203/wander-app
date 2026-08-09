@@ -5,7 +5,8 @@ interface City {
   country: string;
   lat: number | string;
   lng: number | string;
-  subcountry?: string;
+  admin1?: string;
+  admin2?: string;
 }
 
 interface FormattedCity {
@@ -18,13 +19,15 @@ interface FormattedCity {
 
 const rawCities = cities as City[];
 
-const formattedCities: FormattedCity[] = rawCities.map((city) => ({
-  value: `${city.name}-${city.country}`, // unique id
-  label: city.name,                      // shown in dropdown
-  country: city.country,                 // ISO code (IN / US / JP…)
-  state: city.subcountry,                // optional
-  latlng: [Number(city.lat), Number(city.lng)], // for the map
-}));
+const formattedCities: FormattedCity[] = rawCities
+  .filter((city) => city.name && city.country)
+  .map((city) => ({
+    value: `${city.name}-${city.country}`,
+    label: city.name,
+    country: city.country,
+    state: [city.admin1, city.admin2].filter(Boolean).join(", ") || undefined,
+    latlng: [Number(city.lat), Number(city.lng)],
+  }));
 
 const useCities = () => {
   const getAll = () => formattedCities;
