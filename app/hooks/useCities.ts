@@ -30,7 +30,30 @@ const useCities = () => {
   const getAll = () => formattedCities;
 
   const getByValue = (value: string) => {
-    return formattedCities.find((item) => item.value === value);
+    if (!value) {
+      return undefined;
+    }
+
+    const exactMatch = formattedCities.find((item) => item.value === value);
+
+    if (exactMatch) {
+      return exactMatch;
+    }
+
+    const fallbackMatch = formattedCities.find((item) => {
+      const normalizedValue = value.toLowerCase();
+      const normalizedLabel = item.label.toLowerCase();
+      const normalizedCountry = item.country.toLowerCase();
+
+      return (
+        normalizedValue.includes(normalizedLabel) ||
+        normalizedLabel.includes(normalizedValue) ||
+        normalizedValue.includes(normalizedCountry) ||
+        normalizedCountry.includes(normalizedValue)
+      );
+    });
+
+    return fallbackMatch;
   };
 
   return {

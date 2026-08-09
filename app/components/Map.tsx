@@ -23,16 +23,21 @@ const url = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 const attribution =
    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
+const fallbackCenter: L.LatLngExpression = [20.5937, 78.9629];
+
 const Map: React.FC<MapProps> = ({ center }) => {
+   const hasValidCenter = Array.isArray(center) && center.length === 2 && Number.isFinite(center[0]) && Number.isFinite(center[1]);
+   const mapCenter = hasValidCenter ? ([center[0], center[1]] as L.LatLngExpression) : fallbackCenter;
+
    return (
       <MapContainer
-         center={(center as L.LatLngExpression) || [20.5937, 78.9629]}
-         zoom={center ? 8 : 5}
+         center={mapCenter}
+         zoom={hasValidCenter ? 8 : 5}
          scrollWheelZoom={false}
          className="h-[35vh] rounded-lg"
       >
          <TileLayer url={url} attribution={attribution} />
-         {center && <Marker position={center as L.LatLngExpression} />}
+         {hasValidCenter && <Marker position={mapCenter} />}
       </MapContainer>
    );
 };

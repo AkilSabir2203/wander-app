@@ -112,7 +112,7 @@ const Categories = () => {
     }
     return (
         <Container>
-            <div className="p-4 flex flex-row items-center justify-between overflow-x-auto">
+            <div className="p-4 flex flex-row items-center justify-between overflow-x-auto bg-white w-full">
                 {categories.map((item) => (
                     <CategoryBox key={item.label} label={item.label} selected={category === item.label} icon={item.icon}/>
                 ))}

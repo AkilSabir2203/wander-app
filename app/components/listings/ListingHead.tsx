@@ -25,7 +25,7 @@ const ListingHead: React.FC<ListingHeadProps> = ({
 
    return (
       <>
-         <Heading title={title} subtitle={`${location?.state}, ${location?.label}`} />
+         <Heading title={title} subtitle={`${location?.state || "Unknown state"}, ${location?.label || locationValue}`} />
          <div className="w-full h-[60vh] overflow-hidden rounded-xl relative">
             <Image alt={title} src={imageSrc} fill className="object-cover w-full" />
             <div className="absolute top-5 right-5">
