@@ -4,36 +4,32 @@ import useCities from "@/app/hooks/useCities";
 import Select from "react-select";
 
 export type CountrySelectValue = {
-   flag: string;
-   label: string;
-   latlng: number[];
-   state: string;
    value: string;
+   label: string;
+   country: string;
+   latlng: number[];
+   state?: string;
 };
 
 interface CountrySelectProps {
-   value?: CountrySelectValue;
-   onChange: (value: CountrySelectValue) => void;
+   value?: CountrySelectValue | null;
+   onChange: (value: CountrySelectValue | null) => void;
 }
 
 const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange }) => {
    const { getAll } = useCities();
+   const options = getAll();
+
    return (
       <div>
          <Select
             placeholder="Anywhere"
             isClearable
-            options={getAll()}
-            value={value}
-            onChange={(value) => onChange(value as CountrySelectValue)}
-            formatOptionLabel={(option: any) => (
-               <div className="flex flex-row items-center gap-3">
-                  <div>{option.flag}</div>
-                  <div>
-                     {option.label}, <span className="text-neutral-500 ml-1">{option.region}</span>
-                  </div>
-               </div>
-            )}
+            options={options}
+            value={value ?? null}
+            onChange={(selectedValue) => onChange(selectedValue as CountrySelectValue | null)}
+            getOptionLabel={(option) => `${option.label}${option.state ? `, ${option.state}` : ""}`}
+            getOptionValue={(option) => option.value}
             classNames={{
                control: () => "p-3 border-2",
                input: () => "text-lg",
