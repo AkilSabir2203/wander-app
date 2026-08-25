@@ -1,3 +1,5 @@
+"use server"
+
 import prisma from "@/app/libs/prismadb";
 
 export interface IListingParams {
@@ -9,6 +11,9 @@ export interface IListingParams {
    endDate?: string;
    locationValue?: string;
    category?: string;
+
+   page?: number;
+   limit?: number;
 }
 
 export default async function getListings(params: IListingParams) {
@@ -22,6 +27,8 @@ export default async function getListings(params: IListingParams) {
          endDate,
          locationValue,
          category,
+         page = 1, // Default to page 1
+         limit = 12, // Default to 12 listings per page
       } = params;
       const query: any = {};
 
@@ -71,9 +78,13 @@ export default async function getListings(params: IListingParams) {
          };
       }
 
+      const skip = (page - 1) * limit;
+
       const listings = await prisma.listing.findMany({
          where: query,
          orderBy: { createdAt: "desc" },
+         skip: skip, // Skip previous pages
+         take: limit, // Only take the limit (12)
       });
       const safeListings = listings.map((listing) => ({
          ...listing,

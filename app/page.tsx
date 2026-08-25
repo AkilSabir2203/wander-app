@@ -5,13 +5,14 @@ import ClientOnly from "./components/ClientOnly";
 import Container from "./components/Container";
 import EmptyState from "./components/EmptyState";
 import ListingCard from "./components/listings/ListingCard";
+import LoadMore from "./components/LoadMore";
 
 interface HomeProps {
    searchParams: IListingParams;
 }
 
 const Home = async ({ searchParams }: HomeProps) => {
-   const listings = await getListings(searchParams);
+   const listings = await getListings({ ...searchParams, page: 1, limit: 12 });
    const currentUser = await getCurrentUser();
 
    if (listings.length === 0) {
@@ -29,6 +30,10 @@ const Home = async ({ searchParams }: HomeProps) => {
                {listings.map((listing) => {
                   return <ListingCard key={listing.id} data={listing} currentUser={currentUser} />;
                })}
+            <LoadMore 
+            searchParams={searchParams} 
+            currentUser={currentUser} 
+            />
             </div>
          </Container>
       </ClientOnly>
